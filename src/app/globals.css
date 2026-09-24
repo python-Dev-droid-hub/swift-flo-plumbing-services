@@ -1,26 +1,306 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+/*
+  Swift Flo design system
+  Source of truth: official circular logo (navy · cyan · white)
+  Energetic but controlled — cyan for water/CTAs/highlights only.
+*/
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ——— Brand ——— */
+  --brand-primary: #1a1a3f;
+  --brand-secondary: #4ed9ff;
+  --brand-accent: #bbefff;
+
+  /* ——— Backgrounds ——— */
+  --bg-light: #f3f5f6;
+  --bg-dark: #12122e;
+
+  /* ——— Surfaces ——— */
+  --surface: #ffffff;
+  --surface-muted: #e5f3f8;
+  --surface-elevated: #ffffff;
+  --surface-dark: #1a1a3f;
+  --surface-dark-elevated: #24244f;
+
+  /* ——— Text ——— */
+  --text-primary: #12122e;
+  --text-secondary: #3d4560;
+  --text-muted: #5a6278;
+  --text-inverse: #ffffff;
+  --text-on-accent: #1a1a3f;
+  /* Accessible cyan for links / small accent text on light */
+  --text-link: #0c7a9e;
+
+  /* ——— Borders ——— */
+  --border: rgb(26 26 63 / 0.1);
+  --border-strong: rgb(26 26 63 / 0.18);
+  --border-accent: rgb(78 217 255 / 0.55);
+  --border-inverse: rgb(255 255 255 / 0.16);
+
+  /* ——— Gradients ——— */
+  --gradient-water: linear-gradient(
+    135deg,
+    var(--brand-secondary) 0%,
+    var(--brand-primary) 100%
+  );
+  --gradient-water-soft: linear-gradient(
+    160deg,
+    var(--brand-accent) 0%,
+    var(--brand-secondary) 50%,
+    var(--brand-primary) 100%
+  );
+  --gradient-hero: linear-gradient(
+    180deg,
+    rgb(18 18 46 / 0.15) 0%,
+    var(--bg-dark) 100%
+  );
+  --gradient-cta: linear-gradient(
+    135deg,
+    var(--brand-secondary) 0%,
+    #2bb8e8 100%
+  );
+
+  /* ——— Shadows (navy-tinted, never pure black) ——— */
+  --shadow-sm: 0 1px 2px rgb(26 26 63 / 0.06);
+  --shadow-md: 0 8px 24px rgb(26 26 63 / 0.1);
+  --shadow-lg: 0 18px 48px rgb(26 26 63 / 0.14);
+  --shadow-focus: 0 0 0 3px rgb(78 217 255 / 0.35);
+
+  /* ——— Radius ——— */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.75rem;
+  --radius-full: 9999px;
+
+  /* ——— Motion language (WATER FLOW) ———
+     PRIMARY: hero scrub · SECONDARY: section reveal · TERTIARY: CSS hover
+  */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-sine: cubic-bezier(0.33, 1, 0.68, 1);
+  --duration-fast: 220ms;
+  --duration-base: 400ms;
+  --duration-slow: 700ms;
+
+  /* ——— Layout ——— */
+  --header-height: 5rem;
+  --container-narrow: 48rem;
+  --container-default: 72rem;
+  --container-wide: 80rem;
+
+  /*
+    Responsive type scale (mobile → desktop)
+    Modern, readable, professional — pairs with logo geometry.
+  */
+  --text-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+  --text-sm: clamp(0.875rem, 0.84rem + 0.2vw, 0.9375rem);
+  --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --text-lg: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);
+  --text-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.3rem + 0.9vw, 1.875rem);
+  --text-3xl: clamp(1.875rem, 1.55rem + 1.4vw, 2.5rem);
+  --text-4xl: clamp(2.25rem, 1.8rem + 2vw, 3.25rem);
+  --text-5xl: clamp(2.75rem, 2.1rem + 2.8vw, 4rem);
+  --text-6xl: clamp(3.25rem, 2.4rem + 3.5vw, 4.75rem);
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  --tracking-tight: -0.035em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.06em;
+  --tracking-wider: 0.18em;
+
+  --font-mono-stack: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-accent: var(--brand-accent);
+
+  --color-bg-dark: var(--bg-dark);
+  --color-bg-light: var(--bg-light);
+
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-dark: var(--surface-dark);
+  --color-surface-dark-elevated: var(--surface-dark-elevated);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-inverse: var(--text-inverse);
+  --color-text-on-accent: var(--text-on-accent);
+  --color-text-link: var(--text-link);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-border-accent: var(--border-accent);
+  --color-border-inverse: var(--border-inverse);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono-stack);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
+  --text-base: var(--text-base);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+  --text-2xl: var(--text-2xl);
+  --text-3xl: var(--text-3xl);
+  --text-4xl: var(--text-4xl);
+  --text-5xl: var(--text-5xl);
+  --text-6xl: var(--text-6xl);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: auto;
+    -webkit-text-size-adjust: 100%;
+    /* Clear fixed header for native hash jumps when Lenis is off */
+    scroll-padding-top: calc(var(--header-height) + 0.5rem);
+  }
+
+  section[id],
+  #contact-form,
+  #main {
+    scroll-margin-top: calc(var(--header-height) + 0.5rem);
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  body {
+    background-color: var(--bg-light);
+    color: var(--text-primary);
+    font-family: var(--font-body), system-ui, sans-serif;
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    font-feature-settings: "ss01" on, "kern" on;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--brand-secondary) 40%, white);
+    color: var(--brand-primary);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand-secondary);
+    outline-offset: 3px;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font: inherit;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility text-pretty {
+  text-wrap: pretty;
+}
+
+@utility bg-gradient-water {
+  background-image: var(--gradient-water);
+}
+
+@utility bg-gradient-water-soft {
+  background-image: var(--gradient-water-soft);
+}
+
+@utility bg-gradient-hero {
+  background-image: var(--gradient-hero);
+}
+
+@utility bg-gradient-cta {
+  background-image: var(--gradient-cta);
+}
+
+/* ——— Tertiary micro-interactions (hover / press) ——— */
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    transform: translate3d(0, -1px, 0);
+  }
+
+  .btn:hover .btn-icon-trail {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  .btn:hover .btn-icon:not(.btn-icon-trail) {
+    transform: translate3d(0, -1px, 0);
+  }
+
+  .nav-link:hover .nav-indicator {
+    transform: scaleX(0.55);
+  }
+
+  .nav-link[aria-current="page"] .nav-indicator,
+  .nav-link[aria-current="page"]:hover .nav-indicator {
+    transform: scaleX(1);
+  }
+}
+
+.btn-icon {
+  display: inline-flex;
+  transition: transform 180ms var(--ease-out-expo);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover,
+  .btn:active,
+  .btn:hover .btn-icon,
+  .btn:hover .btn-icon-trail {
+    transform: none;
+  }
 }
