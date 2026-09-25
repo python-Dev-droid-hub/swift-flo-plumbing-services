@@ -15,7 +15,7 @@ const display = Fraunces({
   variable: "--font-display",
   subsets: ["latin"],
   display: "swap",
-  weight: ["500", "600", "700"],
+  weight: "variable",
   style: ["normal", "italic"],
 });
 
@@ -23,7 +23,7 @@ const body = Outfit({
   variable: "--font-body",
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600"],
+  weight: "variable",
 });
 
 export const metadata: Metadata = {
