@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { SplitHeading } from "@/components/ui/SplitHeading";
 import { SECTION_IDS, WHY_US_ADVANTAGES } from "@/lib/constants";
@@ -14,39 +15,26 @@ export function WhyChooseUs() {
       const section = sectionRef.current;
       if (!section) return;
 
-      const items = section.querySelectorAll<HTMLElement>("[data-why-item]");
-      const line = section.querySelector<HTMLElement>("[data-why-line]");
+      const items = gsap.utils.toArray<HTMLElement>(
+        section.querySelectorAll("[data-why-item]"),
+      );
+      if (!items.length) return;
 
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        if (line) {
-          gsap.fromTo(
-            line,
-            { scaleY: 0 },
-            {
-              scaleY: 1,
-              ease: "none",
-              scrollTrigger: {
-                trigger: section,
-                start: "top 55%",
-                end: "bottom 70%",
-                scrub: true,
-              },
-            },
-          );
-        }
-
+        gsap.set(items, { autoAlpha: 0, y: 28 });
         items.forEach((item) => {
-          gsap.from(item, {
-            autoAlpha: 0,
-            y: 28,
+          gsap.to(item, {
+            autoAlpha: 1,
+            y: 0,
             duration: 0.75,
             ease: "power3.out",
+            overwrite: "auto",
             scrollTrigger: {
               trigger: item,
               start: "top 82%",
-              toggleActions: "play none none reverse",
+              once: true,
             },
           });
         });
@@ -62,7 +50,7 @@ export function WhyChooseUs() {
       ref={sectionRef}
       id={SECTION_IDS.whyUs}
       aria-labelledby="why-us-heading"
-      className="relative bg-surface-dark py-20 text-text-inverse sm:py-24 md:py-32"
+      className="relative overflow-x-clip bg-surface-dark py-20 text-text-inverse sm:py-24 md:py-32"
     >
       <Container width="wide">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
@@ -76,34 +64,47 @@ export function WhyChooseUs() {
             >
               Work that holds after we leave.
             </SplitHeading>
+            <p className="mt-5 max-w-sm text-base leading-relaxed text-brand-accent/80 md:text-lg">
+              Clear communication, careful installs, and practical fixes —
+              so the job stays solid long after we pack up and go.
+            </p>
           </div>
 
-          <div className="relative">
-            <div
-              className="absolute bottom-2 left-[0.4rem] top-2 hidden w-px bg-white/10 sm:block"
-              aria-hidden
-            />
-            <div
-              data-why-line
-              className="absolute bottom-2 left-[0.4rem] top-2 hidden w-px origin-top scale-y-0 bg-brand-secondary sm:block"
-              aria-hidden
-            />
-            <ol className="flex flex-col gap-12 sm:pl-12">
-              {WHY_US_ADVANTAGES.map((item) => (
-                <li key={item.id} data-why-item>
+          <ol className="grid gap-5">
+            {WHY_US_ADVANTAGES.map((item) => (
+              <li
+                key={item.id}
+                data-why-item
+                className="group relative min-h-[240px] overflow-hidden rounded-lg sm:min-h-[280px]"
+              >
+                <Image
+                  src={item.image.src}
+                  alt={item.image.alt}
+                  fill
+                  sizes="(min-width: 1024px) 55vw, 100vw"
+                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                  style={{
+                    objectPosition: item.image.position ?? "center center",
+                  }}
+                />
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-bg-dark/95 via-bg-dark/70 to-bg-dark/30"
+                  aria-hidden
+                />
+                <div className="relative z-10 flex h-full min-h-[240px] flex-col justify-end p-6 sm:min-h-[280px] sm:p-7">
                   <p className="font-display text-sm italic text-brand-secondary">
                     {item.number}
                   </p>
-                  <h3 className="mt-2 font-display text-3xl font-medium tracking-tight sm:text-4xl">
+                  <h3 className="mt-2 font-display text-2xl font-medium tracking-tight sm:text-3xl">
                     {item.title}
                   </h3>
-                  <p className="mt-3 max-w-md text-base leading-relaxed text-brand-accent/80">
+                  <p className="mt-3 max-w-xl text-sm leading-relaxed text-brand-accent/85 sm:text-base">
                     {item.description}
                   </p>
-                </li>
-              ))}
-            </ol>
-          </div>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </Container>
     </section>

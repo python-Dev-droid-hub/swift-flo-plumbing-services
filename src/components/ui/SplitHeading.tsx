@@ -12,6 +12,7 @@ type SplitHeadingProps = {
 
 /**
  * Word-mask reveal. Plays once when the heading enters.
+ * SplitText targets an inner span so React keeps a stable heading child.
  * Reduced motion leaves the heading as authored.
  */
 export function SplitHeading({
@@ -21,16 +22,17 @@ export function SplitHeading({
   children,
 }: SplitHeadingProps) {
   const ref = useRef<HTMLHeadingElement>(null);
+  const splitRef = useRef<HTMLSpanElement>(null);
 
   useGSAP(
     () => {
-      const heading = ref.current;
-      if (!heading) return;
+      const target = splitRef.current;
+      if (!target) return;
 
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        SplitText.create(heading, {
+        const split = SplitText.create(target, {
           type: "words",
           mask: "words",
           autoSplit: true,
@@ -42,13 +44,17 @@ export function SplitHeading({
               stagger: 0.045,
               ease: "power3.out",
               scrollTrigger: {
-                trigger: heading,
+                trigger: ref.current,
                 start: "top 82%",
                 once: true,
               },
             });
           },
         });
+
+        return () => {
+          split.revert();
+        };
       });
 
       return () => mm.revert();
@@ -58,7 +64,9 @@ export function SplitHeading({
 
   return (
     <Tag ref={ref} id={id} className={className}>
-      {children}
+      <span ref={splitRef} className="split-heading-target">
+        {children}
+      </span>
     </Tag>
   );
 }

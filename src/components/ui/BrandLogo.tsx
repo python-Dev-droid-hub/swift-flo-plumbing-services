@@ -13,11 +13,15 @@ type BrandLogoProps = {
   priority?: boolean;
 };
 
-/** Display box + native img pixels (2× for sharp retina) */
+/**
+ * Square display boxes sized for header / nav rhythm.
+ * Native pixels are 2× the CSS box for sharp retina.
+ */
 const sizeMap = {
-  sm: { box: "h-12 w-12", img: 96 },
-  md: { box: "h-14 w-14", img: 112 },
-  lg: { box: "h-16 w-16 sm:h-[4.5rem] sm:w-[4.5rem]", img: 144 },
+  sm: { box: "h-9 w-9", img: 72 },
+  md: { box: "h-11 w-11", img: 88 },
+  /** Primary header mark — paired with ~80–88px header bars */
+  lg: { box: "h-14 w-14 sm:h-16 sm:w-16", img: 128 },
   xl: { box: "h-20 w-20 sm:h-24 sm:w-24", img: 192 },
 } as const;
 
@@ -35,7 +39,7 @@ export function BrandLogo({
   return (
     <span
       className={cn(
-        "relative inline-flex shrink-0 items-center justify-center bg-transparent",
+        "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-transparent",
         dims.box,
         className,
       )}
@@ -48,7 +52,8 @@ export function BrandLogo({
         priority={priority}
         unoptimized
         sizes={`${dims.img}px`}
-        className="h-full w-full bg-transparent object-contain"
+        className="h-full w-full object-contain object-center"
+        draggable={false}
       />
     </span>
   );

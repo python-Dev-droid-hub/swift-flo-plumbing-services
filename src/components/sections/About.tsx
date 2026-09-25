@@ -122,6 +122,7 @@ export function About() {
                   fill
                   sizes="(min-width: 1024px) 18vw, 30vw"
                   className="object-cover"
+                  style={{ objectPosition: image.position }}
                 />
               </div>
             ))}

@@ -14,14 +14,14 @@ export function Services() {
       const section = sectionRef.current;
       if (!section) return;
 
-      const rows = section.querySelectorAll<HTMLElement>("[data-service-row]");
-      if (!rows.length) return;
+      const cells = section.querySelectorAll<HTMLElement>("[data-service-row]");
+      if (!cells.length) return;
 
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.set(rows, { autoAlpha: 0, y: 28 });
-        ScrollTrigger.batch(rows, {
+        gsap.set(cells, { autoAlpha: 0, y: 28 });
+        ScrollTrigger.batch(cells, {
           start: "top 86%",
           once: true,
           onEnter: (batch) => {
@@ -64,31 +64,37 @@ export function Services() {
           home or business running.
         </p>
 
-        <ul className="mt-14 grid border-t border-white/15 md:grid-cols-2">
-          {SERVICES.map((service, index) => (
-            <li
-              key={service.id}
-              data-service-row
-              className="border-b border-white/15 md:[&:nth-child(odd)]:border-r md:[&:nth-child(odd)]:pr-10 md:[&:nth-child(even)]:pl-10"
-            >
-              <a
-                href={service.href}
-                className="group flex gap-5 py-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary sm:py-10"
+        <ul className="mt-14 grid gap-x-10 gap-y-0 sm:gap-y-0 md:grid-cols-2 md:gap-x-12 md:gap-y-12 lg:grid-cols-3 lg:gap-x-14 lg:gap-y-14">
+          {SERVICES.map((service) => {
+            const Icon = service.icon;
+
+            return (
+              <li
+                key={service.id}
+                data-service-row
+                className="border-b border-white/10 last:border-b-0 md:border-b-0"
               >
-                <span className="font-display text-lg italic text-brand-secondary">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="min-w-0">
-                  <span className="block font-display text-2xl font-medium tracking-tight text-text-inverse transition-colors group-hover:text-brand-secondary sm:text-3xl">
-                    {service.title}
+                <a
+                  href={service.href}
+                  className="group flex flex-col gap-4 py-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-dark md:py-0"
+                >
+                  <Icon
+                    aria-hidden
+                    className="size-7 shrink-0 text-brand-secondary transition-transform duration-300 ease-out group-hover:-translate-y-1 sm:size-8"
+                    strokeWidth={1.5}
+                  />
+                  <span className="min-w-0">
+                    <span className="block font-display text-xl font-medium tracking-tight text-text-inverse transition-colors duration-300 group-hover:text-brand-secondary sm:text-2xl">
+                      {service.title}
+                    </span>
+                    <span className="mt-2 block text-sm leading-relaxed text-brand-accent/75 md:text-base">
+                      {service.description}
+                    </span>
                   </span>
-                  <span className="mt-2 block max-w-md text-sm leading-relaxed text-brand-accent/75 md:text-base">
-                    {service.description}
-                  </span>
-                </span>
-              </a>
-            </li>
-          ))}
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </Container>
     </section>

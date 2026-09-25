@@ -90,13 +90,14 @@ export function Header() {
           className={cn(
             "flex items-center justify-between gap-4 transition-[height] duration-300",
             "[transition-timing-function:var(--ease-out-quart)]",
-            elevated ? "h-16 lg:h-[4.5rem]" : "h-[4.5rem] lg:h-20",
+            "h-20 lg:h-[5.5rem]",
           )}
         >
           <a
             href="#hero"
             className={cn(
-              "relative z-10 shrink-0 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2",
+              "relative z-10 inline-flex shrink-0 items-center justify-center rounded-full",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-secondary focus-visible:ring-offset-2",
               elevated
                 ? "focus-visible:ring-offset-bg-dark"
                 : "focus-visible:ring-offset-bg-light",
