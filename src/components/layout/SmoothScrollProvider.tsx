@@ -88,7 +88,7 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
         // Keep touch scrub locked to the finger for pinned hero / process tracks.
         syncTouch: true,
         syncTouchLerp: 0.12,
-        touchInertiaMultiplier: 18,
+        touchMultiplier: 1.2,
         anchors: false,
       });
 
