@@ -85,6 +85,10 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
         duration: 1.15,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
+        // Keep touch scrub locked to the finger for pinned hero / process tracks.
+        syncTouch: true,
+        syncTouchLerp: 0.12,
+        touchInertiaMultiplier: 18,
         anchors: false,
       });
 
